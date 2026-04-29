@@ -4,25 +4,20 @@ public class Main {
 
     public static void main(String[] args) {
 
-        // Crear el árbol
         BinaryTree<Association<String, String>> tree = new BinaryTree<>();
 
-        // ================= CARGAR DICCIONARIO =================
+        // ===== LEER DICCIONARIO =====
         try {
-            BufferedReader br = new BufferedReader(new FileReader("diccionario.txt"));
+            BufferedReader br = new BufferedReader(new FileReader("data/diccionario.txt"));
             String line;
 
             while ((line = br.readLine()) != null) {
-
-                // Limpiar formato: (word, palabra)
                 line = line.replace("(", "").replace(")", "");
-
                 String[] parts = line.split(", ");
 
-                String english = parts[0].toLowerCase(); // ignorar mayúsculas
+                String english = parts[0].toLowerCase();
                 String spanish = parts[1];
 
-                // Insertar en el árbol
                 tree.insert(new Association<>(english, spanish));
             }
 
@@ -30,37 +25,33 @@ public class Main {
 
         } catch (IOException e) {
             System.out.println("Error leyendo diccionario");
+            e.printStackTrace();
         }
 
-        // ================= MOSTRAR IN-ORDER =================
+        // ===== IN-ORDER =====
         System.out.println("Diccionario ordenado:");
         tree.inOrder();
 
-        // ================= TRADUCIR TEXTO =================
+        // ===== TRADUCCIÓN =====
         System.out.println("\nTraducción:");
 
         try {
-            BufferedReader br = new BufferedReader(new FileReader("texto.txt"));
+            BufferedReader br = new BufferedReader(new FileReader("data/texto.txt"));
             String line;
 
             while ((line = br.readLine()) != null) {
-
                 String[] words = line.split(" ");
 
                 for (String word : words) {
 
-                    // Limpiar palabra (quitar puntuación)
                     String clean = word.replaceAll("[^a-zA-Z]", "").toLowerCase();
 
-                    // Buscar en el árbol
                     Association<String, String> result =
                             tree.search(new Association<>(clean, ""));
 
                     if (result != null) {
-                        // Si existe traducción
                         System.out.print(result.getValue() + " ");
                     } else {
-                        // Si no existe
                         System.out.print("*" + word + "* ");
                     }
                 }
@@ -70,6 +61,7 @@ public class Main {
 
         } catch (IOException e) {
             System.out.println("Error leyendo texto");
+            e.printStackTrace();
         }
     }
 }

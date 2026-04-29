@@ -1,30 +1,22 @@
-// Árbol binario de búsqueda (BST)
 public class BinaryTree<E extends Comparable<E>> {
 
     private Node<E> root;
 
-    // ================= INSERT =================
     public void insert(E data) {
         root = insertRec(root, data);
     }
 
     private Node<E> insertRec(Node<E> node, E data) {
-        // Si el nodo está vacío, crear uno nuevo
-        if (node == null) {
-            return new Node<>(data);
-        }
+        if (node == null) return new Node<>(data);
 
-        // Comparar para decidir izquierda o derecha
-        if (data.compareTo(node.data) < 0) {
+        if (data.compareTo(node.data) < 0)
             node.left = insertRec(node.left, data);
-        } else {
+        else
             node.right = insertRec(node.right, data);
-        }
 
         return node;
     }
 
-    // ================= SEARCH =================
     public E search(E data) {
         return searchRec(root, data);
     }
@@ -39,7 +31,6 @@ public class BinaryTree<E extends Comparable<E>> {
         return searchRec(node.right, data);
     }
 
-    // ================= IN-ORDER =================
     public void inOrder() {
         inOrderRec(root);
     }

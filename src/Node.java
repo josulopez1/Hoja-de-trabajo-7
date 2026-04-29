@@ -1,4 +1,3 @@
-// Nodo del árbol binario
 class Node<E> {
     E data;
     Node<E> left;
